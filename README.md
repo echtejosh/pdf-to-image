@@ -1,7 +1,5 @@
 # Doppler 
 
-## Overview
-
 Doppler is a PHP class that provides a convenient interface for converting PDF files to images using Ghostscript. It supports both single-page and batch processing, allowing for customization of various parameters.
 
 ## Installation
