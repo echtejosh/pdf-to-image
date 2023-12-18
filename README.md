@@ -35,7 +35,7 @@ $doppler->read(path);
 ```
 
 ### configure(options)
-Configure the conversion process for the PDF. See options:
+Configure the conversion process for the PDF. See [options](https://github.com/echtyushi/doppler/blob/master/README.md#options):
 ```php
 $doppler->configure(options);
 ```
