@@ -22,7 +22,7 @@ class Doppler
     public $default_parameters = [
         '-dNOPAUSE',
         '-dBATCH',
-        '-dNumRenderingThreads=12', // change to amount of cores u want to use
+        '-dNumRenderingThreads=12', // Change to amount of CPU cores u want to use.
         '-dBufferSpace=1000000000',
         '-dBandBufferSpace=500000000',
         '-dNOTRANSPARENCY',
@@ -210,7 +210,6 @@ class Doppler
             throw new Exception('this type is not supported');
         }
 
-        // init default params
         $this->add_params(
             array_merge(
                 $this->default_parameters,
@@ -221,7 +220,7 @@ class Doppler
             )
         );
 
-        // jpg
+        // JPG
         if ($this->get_parameter('-sDEVICE=jpeg')) {
             $this->add_params(
                 [
@@ -231,7 +230,7 @@ class Doppler
             );
         }
 
-        // png
+        // PNG
         if ($this->get_parameter('-sDEVICE=pngalpha')) {
             $alpha_bits = $this->get_config_var('alpha_bits');
 
@@ -266,7 +265,7 @@ class Doppler
             );
         }
 
-        // ignore batch processing
+        // Ignore batch processing
         if ($batch_size === 0) {
             $this->add_params(
                 [
@@ -287,7 +286,7 @@ class Doppler
             return;
         }
 
-        // batch processing
+        // Batch processing
         for ($start_page = $page_start_at + 1, $batch = 1; $start_page <= $page_count; $start_page += $batch_size, $batch++) {
             $end_page = min($start_page + $batch_size - 1, $page_count);
 
