@@ -27,7 +27,6 @@ $doppler->process('path/to/folder/', 'jpg');
 ```
 
 ## Options
-In Functions referenced as `options`:
 
 | Option                    | Default               | Description                                                                                              |
 |---------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------|
