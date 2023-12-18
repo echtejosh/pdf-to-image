@@ -11,21 +11,6 @@ sudo apt-get install ghostscript
 sudo apt-get install qpdf
 ```
 
-## Example
-PDF to JPG conversion using Doppler:
-```php
-$doppler = new Doppler();
-
-$doppler->read('example.pdf');
-
-$doppler->configure([
-    'resolution' => 300,
-    'compression_quality' => 100,
-]);
-
-$doppler->process('path/to/folder/', 'jpg');
-```
-
 ## Options
 
 | Option                    | Default               | Description                                                                                              |
