@@ -66,7 +66,7 @@ Get the Ghostscript command for processing the PDF file:
 $doppler->get_command(options);
 ```
 
-### Additional Notes
+## Additional Notes
 
 - The example assumes that the Ghostscript and QPDF executables are in the system's PATH.
 - Make sure the web server has the necessary permissions to read the input PDF file and write to the output directory.
