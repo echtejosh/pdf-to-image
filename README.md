@@ -11,7 +11,7 @@ sudo apt-get install ghostscript
 sudo apt-get install qpdf
 ```
 
-## Usage
+## Example
 Example on how to convert a PDF to JPG:
 ```php
 $doppler = new Doppler();
@@ -25,6 +25,20 @@ $doppler->configure([
 
 $doppler->process('path/to/folder/', 'jpg');
 ```
+
+## Options
+In Functions referenced as `options`:
+
+| Option                    | Description                                                                                              | Default Value               |
+|---------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------|
+| `page_start_at`           | Starting page number for PDF conversion.                                                                 | `0`                         |
+| `batch_size`              | Number of pages to process in each batch during batch processing. Set to `0` for single-page processing. | `0`                         |
+| `resolution`              | Resolution (dots per inch) of the generated images.                                                      | `300`                       |
+| `compression_quality`     | Compression quality for JPEG images (applies only to JPEG output).                                       | `100`                       |
+| `alpha_bits`              | Number of bits for alpha channel transparency in PNG images.                                             | `4`                         |
+| `disable_color_management`| Disable color management during PDF conversion.                                                          | `true`                      |
+| `disable_font`            | Disable font inclusion in the generated images.                                                          | `true`                      |
+| `disable_annotations`     | Disable annotations in the PDF during conversion.                                                        | `true`                      |
 
 ## Functions
 
@@ -51,21 +65,6 @@ Get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
 ```
-
-## Options
-In Functions referenced as `options`:
-
-| Option                    | Description                                                                                              | Default Value               |
-|---------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------|
-| `page_start_at`           | Starting page number for PDF conversion.                                                                 | `0`                         |
-| `batch_size`              | Number of pages to process in each batch during batch processing. Set to `0` for single-page processing. | `0`                         |
-| `resolution`              | Resolution (dots per inch) of the generated images.                                                      | `300`                       |
-| `compression_quality`     | Compression quality for JPEG images (applies only to JPEG output).                                       | `100`                       |
-| `alpha_bits`              | Number of bits for alpha channel transparency in PNG images.                                             | `4`                         |
-| `disable_color_management`| Disable color management during PDF conversion.                                                          | `true`                      |
-| `disable_font`            | Disable font inclusion in the generated images.                                                          | `true`                      |
-| `disable_annotations`     | Disable annotations in the PDF during conversion.                                                        | `true`                      |
-
 
 ### Additional Notes
 
