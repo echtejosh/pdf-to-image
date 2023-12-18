@@ -1,4 +1,4 @@
-# Doppler: PDF to Image Converter
+# Doppler: PDF to JPEG/PNG 
 
 ## Overview
 
