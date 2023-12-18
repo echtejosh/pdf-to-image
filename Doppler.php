@@ -1,10 +1,24 @@
 <?php
 
+/**
+ * Doppler
+ *
+ * This class provides a convenient interface for converting PDF files to images using Ghostscript.
+ * It supports both single-page and batch processing, allowing for customization of various parameters.
+ *
+ * @author echtyushi
+ * @version 1.0
+ */
 class Doppler
 {
+    /**
+     * @var string $file_name The path to the PDF file to be processed.
+     */
     public $file_name;
 
-    // use ghostscript docs
+    /**
+     * @var array $default_parameters Default Ghostscript parameters for PDF conversion.
+     */
     public $default_parameters = [
         '-dNOPAUSE',
         '-dBATCH',
@@ -15,6 +29,9 @@ class Doppler
         '-dNOGC'
     ];
 
+    /**
+     * @var array $default_config Default configuration options for PDF conversion.
+     */
     public $default_config = [
         'page_start_at' => 0,
         'batch_size' => 0,
@@ -26,11 +43,22 @@ class Doppler
         'disable_annotations' => true,
     ];
 
+    /**
+     * @var array $config User-defined configuration options for PDF conversion.
+     */
     public $config = [];
 
+    /**
+     * @var array $parameters Additional Ghostscript parameters set by the user.
+     */
     public $parameters = [];
 
-    private function run_process($command)
+    /**
+     * Run a Ghostscript process with the given command.
+     *
+     * @param string $command The Ghostscript command to execute.
+     */
+    private function run_process(string $command)
     {
         $descriptors = [
             0 => ['pipe', 'r'], // stdin
@@ -58,7 +86,14 @@ class Doppler
         }
     }
 
-    public function read($file_name): Doppler
+    /**
+     * Set the PDF file to be processed.
+     *
+     * @param string $file_name The path to the PDF file.
+     * @return Doppler
+     * @throws Exception If the file is not found.
+     */
+    public function read(string $file_name): Doppler
     {
         $file_path = realpath($file_name);
 
@@ -71,12 +106,24 @@ class Doppler
         return $this;
     }
 
-    private function get_page_count($file_name)
+    /**
+     * Get the total number of pages in the PDF file.
+     *
+     * @param string $file_name The path to the PDF file.
+     * @return string|null The number of pages or null if unable to determine.
+     */
+    private function get_page_count(string $file_name): ?string
     {
         return shell_exec('qpdf --show-npages ' . $file_name);
     }
 
-    public function configure($config): Doppler
+    /**
+     * Set user-defined configuration options for PDF conversion.
+     *
+     * @param array $config User-defined configuration options.
+     * @return Doppler
+     */
+    public function configure(array $config): Doppler
     {
         $this->config = $config;
 
@@ -100,7 +147,7 @@ class Doppler
         return array_merge($this->default_config, $this->config)[$var] ?? null;
     }
 
-    private function get_parameters()
+    private function get_parameters(): array
     {
         return array_merge($this->default_parameters, $this->parameters);
     }
@@ -110,7 +157,14 @@ class Doppler
         return str_replace(["\n", "\r", '  '], ' ', 'gs ' . join(' ', $params ?? $this->get_parameters()));
     }
 
-    public function process($path, $type = 'jpg')
+    /**
+     * Process the PDF file and generate images in the specified directory.
+     *
+     * @param string $path The directory to save the generated images.
+     * @param string $type The image type (e.g., 'jpg', 'png').
+     * @throws Exception If an error occurs during processing.
+     */
+    public function process(string $path, string $type = 'jpg')
     {
         if (is_dir($path) === false) {
             throw new Exception('invalid directory: ' . $path);
@@ -236,14 +290,3 @@ class Doppler
         echo "total processing time: {$total} seconds\n";
     }
 }
-
-$doppler = new Doppler();
-
-// test example of usage
-$doppler
-    ->read('pdf_test_30min.pdf')
-    ->configure([
-        'resolution' => 250,
-        'compression_quality' => 80,
-    ])
-    ->process('images/');
