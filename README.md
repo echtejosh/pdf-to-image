@@ -6,7 +6,7 @@ Doppler is a PHP class that provides a convenient interface for converting PDF f
 
 ## Installation
 
-Before using Doppler, ensure that you have Ghostscript and qpdf installed on your system. You can install them using the following commands:
+Before using Doppler, ensure that you have Ghostscript and QPDF installed on your system. You can install them using the following commands:
 
 GhostScript:
 ```bash
