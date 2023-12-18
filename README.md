@@ -24,17 +24,20 @@ sudo apt-get install qpdf
 ```php
 $doppler = new Doppler();
 
-$doppler
-    ->read('path/to/your/file.pdf')
-    ->configure([
-        'resolution' => 300,
-        'compression_quality' => 100,
-        'alpha_bits' => 4,
-        'disable_color_management' => true,
-        'disable_font' => true,
-        'disable_annotations' => true,
-    ])
-    ->process('path/to/output/directory/', 'jpg');
+$doppler->read('path/to/your/file.pdf');
+
+$doppler->configure([
+    'page_start_at' => 0,
+    'batch_size' => 0,
+    'resolution' => 300,
+    'compression_quality' => 100,
+    'alpha_bits' => 4,
+    'disable_color_management' => true,
+    'disable_font' => true,
+    'disable_annotations' => true,
+]);
+
+$doppler->process('path/to/output/directory/', 'jpg');
 ```
 
 ### Additional Notes
