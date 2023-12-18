@@ -12,7 +12,7 @@ sudo apt-get install qpdf
 ```
 
 ## Example
-Example on how to convert a PDF to JPG:
+PDF to JPG conversion using Doppler:
 ```php
 $doppler = new Doppler();
 
