@@ -1,4 +1,4 @@
-# Doppler: PDF to JPEG/PNG 
+# Doppler 
 
 ## Overview
 
