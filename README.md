@@ -35,7 +35,7 @@ $doppler->read(path);
 ```
 
 ### configure(options)
-Configure the conversion process for the PDF. See [options](https://github.com/echtyushi/doppler/blob/master/README.md#options):
+Configure the conversion process for the PDF:
 ```php
 $doppler->configure(options);
 ```
@@ -53,6 +53,8 @@ $doppler->get_command(options);
 ```
 
 ## Options
+In Functions referenced as `options`:
+
 | Option                    | Description                                                                                              | Default Value               |
 |---------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------|
 | `page_start_at`           | Starting page number for PDF conversion.                                                                 | `0`                         |
