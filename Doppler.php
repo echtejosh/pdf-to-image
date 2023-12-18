@@ -4,7 +4,7 @@
  * Doppler
  *
  * This class provides a convenient interface for converting PDF files to images using Ghostscript.
- * It supports both single-page and batch processing, allowing for customization of various parameters.
+ * It supports both single-page and batch processing.
  *
  * @author echtyushi
  * @version 1.0
