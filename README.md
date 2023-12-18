@@ -49,7 +49,7 @@ $doppler->process(directory, type);
 - directory: the directory in which the resulting conversions should be outputted.
 - type: specifies the file format for the conversion, either JPG or PNG.
 
-### get_command()
+### get_command(options)
 Additional function: get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
