@@ -130,11 +130,23 @@ class Doppler
         return $this;
     }
 
+    /**
+     * Add parameters to the command.
+     *
+     * @param $params
+     * @return void
+     */
     private function add_params($params)
     {
         $this->parameters = array_merge($this->parameters, $params);
     }
 
+    /**
+     * Get parameter.
+     *
+     * @param mixed $param
+     * @return mixed|null
+     */
     private function get_parameter($param)
     {
         $_params = array_flip($this->parameters);
@@ -142,17 +154,34 @@ class Doppler
         return isset($_params[$param]) ? $this->parameters[$_params[$param]] : null;
     }
 
+    /**
+     * Get configuration.
+     *
+     * @param $var
+     * @return int|mixed|null
+     */
     private function get_config_var($var)
     {
         return array_merge($this->default_config, $this->config)[$var] ?? null;
     }
 
+    /**
+     * Get parameters.
+     *
+     * @return array
+     */
     private function get_parameters(): array
     {
         return array_merge($this->default_parameters, $this->parameters);
     }
 
-    public function get_command($params = null): string
+    /**
+     * Get the Ghostscript command for processing the PDF file.
+     *
+     * @param array|null $params Additional parameters to include in the command.
+     * @return string The constructed Ghostscript command.
+     */
+    public function get_command(array $params = null): string
     {
         return str_replace(["\n", "\r", '  '], ' ', 'gs ' . join(' ', $params ?? $this->get_parameters()));
     }
