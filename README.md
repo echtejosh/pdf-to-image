@@ -25,6 +25,7 @@ sudo apt-get install qpdf
 | `disable_annotations`     | `true`                      | Disable annotations in the PDF during conversion.                                                        |
 
 ## Functions
+Functions ordered in use-case. From reading the file, to configurating the conversion, to processing the PDF to JPG or PNG.
 
 ### read(path)
 Set a PDF to be read and converted. Referenced as `path`:
@@ -49,7 +50,7 @@ $doppler->process(directory, type);
 - type: specifies the file format for the conversion, either JPG or PNG.
 
 ### get_command()
-Get the Ghostscript command for processing the PDF file:
+Additional function: get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
 ```
