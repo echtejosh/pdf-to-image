@@ -29,16 +29,16 @@ $doppler->process('path/to/folder/', 'jpg');
 ## Options
 In Functions referenced as `options`:
 
-| Option                    | Description                                                                                              | Default Value               |
-|---------------------------|----------------------------------------------------------------------------------------------------------|-----------------------------|
-| `page_start_at`           | Starting page number for PDF conversion.                                                                 | `0`                         |
-| `batch_size`              | Number of pages to process in each batch during batch processing. Set to `0` for single-page processing. | `0`                         |
-| `resolution`              | Resolution (dots per inch) of the generated images.                                                      | `300`                       |
-| `compression_quality`     | Compression quality for JPEG images (applies only to JPEG output).                                       | `100`                       |
-| `alpha_bits`              | Number of bits for alpha channel transparency in PNG images.                                             | `4`                         |
-| `disable_color_management`| Disable color management during PDF conversion.                                                          | `true`                      |
-| `disable_font`            | Disable font inclusion in the generated images.                                                          | `true`                      |
-| `disable_annotations`     | Disable annotations in the PDF during conversion.                                                        | `true`                      |
+| Option                    | Default               | Description                                                                                              |
+|---------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------|
+| `page_start_at`           | `0`                         | Starting page number for PDF conversion.                                                                 |
+| `batch_size`              | `0`                         | Number of pages to process in each batch during batch processing. Set to `0` for single-page processing. |
+| `resolution`              | `300`                       | Resolution (dots per inch) of the generated images.                                                      |
+| `compression_quality`     | `100`                       | Compression quality for JPEG images (applies only to JPEG output).                                       |
+| `alpha_bits`              | `4`                         | Number of bits for alpha channel transparency in PNG images.                                             |
+| `disable_color_management`| `true`                      | Disable color management during PDF conversion.                                                          |
+| `disable_font`            | `true`                      | Disable font inclusion in the generated images.                                                          |
+| `disable_annotations`     | `true`                      | Disable annotations in the PDF during conversion.                                                        |
 
 ## Functions
 
@@ -47,24 +47,29 @@ Set a PDF to be read and converted. Referenced as `path`:
 ```php
 $doppler->read(path);
 ```
+- path: relative or real path to the PDF file.
 
 ### configure(options)
 Configure the conversion process for the PDF:
 ```php
 $doppler->configure(options);
 ```
+- options: see `options` above.
 
 ### process(directory, type)
 Convert to `type` which can either be JPG or PNG the given directory:
 ```php
 $doppler->process(directory, type);
 ```
+- directory: the directory in which the resulting conversions should be outputted.
+- type: specifies the file format for the conversion, either JPG or PNG.
 
 ### get_command()
 Get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
 ```
+- options: see `options` above.
 
 ## Additional Notes
 
