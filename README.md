@@ -53,7 +53,7 @@ Configure the conversion process for the PDF:
 ```php
 $doppler->configure(options);
 ```
-- options: see `options` above.
+- options: see [options](https://github.com/echtyushi/doppler/?tab=readme-ov-file#options).
 
 ### process(directory, type)
 Convert to `type` which can either be JPG or PNG the given directory:
@@ -68,7 +68,7 @@ Get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
 ```
-- options: see `options` above.
+- options: see [options](https://github.com/echtyushi/doppler/?tab=readme-ov-file#options).
 
 ## Additional Notes
 
