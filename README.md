@@ -12,8 +12,9 @@ sudo apt-get install qpdf
 ```
 
 ## Options
+Options is ana associative array. `option` as key, `default` as default value.
 
-| Option                    | Default               | Description                                                                                              |
+| Option                    | Default                     | Description                                                                                              |
 |---------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------|
 | `page_start_at`           | `0`                         | Starting page number for PDF conversion.                                                                 |
 | `batch_size`              | `0`                         | Number of pages to process in each batch during batch processing. Set to `0` for single-page processing. |
