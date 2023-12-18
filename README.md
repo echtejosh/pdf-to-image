@@ -43,4 +43,4 @@ $doppler
 
 - The example assumes that the Ghostscript and QPDF executables are in the system's PATH.
 - Make sure the web server has the necessary permissions to read the input PDF file and write to the output directory.
-- Ensure that the proc_open function is not disabled in your PHP configuration, as Doppler relies on it to execute Ghostscript commands. Check the disable_functions directive in your php.ini file and remove proc_open if present.
+- Ensure that the `proc_open` function is not disabled in your PHP configuration, as Doppler relies on it to execute Ghostscript commands. Check the `disable_functions` directive in your `php.ini` file and remove `proc_open` if present.
