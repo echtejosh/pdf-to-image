@@ -175,7 +175,7 @@ class Doppler
      */
     public function get_page_count(string $path): ?string
     {
-        return shell_exec($this->get_executable() . ' -q --permit-file-read=./ -dNODISPLAY -c "(' . $path . ') (r) file runpdfbegin pdfpagecount = quit"');
+        return shell_exec($this->get_executable() . ' -q --permit-file-read=' . $path . ' -dNODISPLAY -c "(' . $path . ') (r) file runpdfbegin pdfpagecount = quit"');
     }
 
     /**
@@ -199,7 +199,7 @@ class Doppler
      *
      * @return void
      */
-    private function add_params(array $params)
+    private function add_parameters(array $params)
     {
         $this->parameters = array_merge($this->parameters, $params);
     }
@@ -278,7 +278,7 @@ class Doppler
             throw new Exception('this type is not supported');
         }
 
-        $this->add_params(
+        $this->add_parameters(
             array_merge(
                 $this->default_parameters,
                 [
@@ -290,7 +290,7 @@ class Doppler
 
         // JPG
         if ($this->get_parameter('-sDEVICE=jpeg')) {
-            $this->add_params(
+            $this->add_parameters(
                 [
                     '-dJPEGQ=' . $this->get_config_var('compression_quality'),
                     '-dCOLORSCREEN'
@@ -302,7 +302,7 @@ class Doppler
         if ($this->get_parameter('-sDEVICE=pngalpha')) {
             $alpha_bits = $this->get_config_var('alpha_bits');
 
-            $this->add_params(
+            $this->add_parameters(
                 [
                     '-dGraphicsAlphaBits=' . $alpha_bits,
                     '-dTextAlphaBits=' . $alpha_bits
@@ -316,26 +316,26 @@ class Doppler
         $start = microtime(true);
 
         if ($this->get_config_var('disable_color_management')) {
-            $this->add_params(
+            $this->add_parameters(
                 ['-dColorConversionStrategy=/LeaveColorUnchanged']
             );
         }
 
         if ($this->get_config_var('disable_font')) {
-            $this->add_params(
+            $this->add_parameters(
                 ['-dNOFONT']
             );
         }
 
         if ($this->get_config_var('disable_annotations')) {
-            $this->add_params(
+            $this->add_parameters(
                 ['-dPrinted']
             );
         }
 
         // Ignore batch processing
         if ($batch_size === 0) {
-            $this->add_params(
+            $this->add_parameters(
                 [
                     '-dFirstPage=' . $page_start_at,
                     '-dLastPage=' . $page_count,
@@ -386,3 +386,14 @@ class Doppler
         echo "total processing time: {$total} seconds\n";
     }
 }
+
+$doppler = new Doppler();
+
+// test example of usage
+$doppler
+    ->read('pdf_test.pdf')
+    ->configure([
+        'resolution' => 250,
+        'compression_quality' => 80,
+    ])
+    ->process('images/');
