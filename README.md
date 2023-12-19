@@ -62,7 +62,7 @@ Additional function: get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
 ```
-- options: see [options](https://github.com/echtyushi/doppler/#options).
+- options: see [options](https://github.com/echtyushi/doppler/#options), `options` passed through `get_command` overwrites current and default configurations and parameters.
 
 ## Additional Notes
 
