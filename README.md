@@ -56,15 +56,17 @@ $doppler->process(directory, type);
 - directory: the directory in which the resulting conversions should be outputted.
 - type: specifies the file format for the conversion, either JPG or PNG.
 
+## Additional Functions
+
 ### get_command(options)
-Additional function: get the Ghostscript command for processing the PDF file:
+Get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
 ```
 - options: see [options](https://github.com/echtyushi/doppler/#options), `options` passed through `get_command` overwrites current and default configurations and parameters.
 
 ### get_page_count(path)
-Additional function: retrieve the page count of a PDF:
+Retrieve the page count of a PDF:
 ```php
 $doppler->get_page_count(path);
 ```
