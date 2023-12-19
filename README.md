@@ -25,7 +25,7 @@ Options is an [associative array](https://www.php.net/manual/en/language.types.a
 | `disable_annotations`     | `true`                      | Disable annotations in the PDF during conversion.                                                        |
 
 
-### Additional Configuration
+### Configuration
 
 - Ensure that the `-dNumRenderingThreads=` parameter within the `default_parameters` property of the Doppler class is set to the desired number of cores for allocation.
 
