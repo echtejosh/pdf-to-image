@@ -11,7 +11,7 @@ sudo apt-get install qpdf
 ```
 
 ## Options
-Options is an [associative array](https://www.php.net/manual/en/language.types.array.php) with `option` as key and `default` as default value.
+Options is an [associative array](https://www.php.net/manual/en/language.types.array.php) with `option` as key and `default` as value.
 
 | Option                    | Default                     | Description                                                                                              |
 |---------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------|
