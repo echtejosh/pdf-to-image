@@ -24,6 +24,10 @@ Options is an [associative array](https://www.php.net/manual/en/language.types.a
 | `disable_font`            | `true`                      | Disable font inclusion in the generated images.                                                          |
 | `disable_annotations`     | `true`                      | Disable annotations in the PDF during conversion.                                                        |
 
+### Additional Configuration
+
+- Ensure that the `-dNumRenderingThreads=` parameter within the `default_parameters` property of the class is set to the desired number of cores for allocation.
+
 ## Functions
 Functions ordered in use-case. From reading the file, to configurating the conversion, to processing the PDF to JPG or PNG.
 
