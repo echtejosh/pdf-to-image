@@ -12,12 +12,23 @@
 class Doppler
 {
     /**
-     * @var string $file_name The path to the PDF file to be processed.
+     * The interpreter command for Ghostscript.
+     *
+     * @var string $interpreter
+     */
+    public $interpreter = 'gs'; // gswin32, gswin64
+
+    /**
+     * The path to the PDF file to be processed.
+     *
+     * @var string $file_name
      */
     public $file_name;
 
     /**
-     * @var array $default_parameters Default Ghostscript parameters for PDF conversion.
+     * Default Ghostscript parameters for PDF conversion.
+     *
+     * @var array $default_parameters
      */
     public $default_parameters = [
         '-dNOPAUSE',
@@ -26,11 +37,14 @@ class Doppler
         '-dBufferSpace=1000000000',
         '-dBandBufferSpace=500000000',
         '-dNOTRANSPARENCY',
+        '-dMaxBitmap=10000000',
         '-dNOGC'
     ];
 
     /**
-     * @var array $default_config Default configuration options for PDF conversion.
+     * Default configuration options for PDF conversion.
+     *
+     * @var array $default_config
      */
     public $default_config = [
         'page_start_at' => 0,
@@ -44,19 +58,23 @@ class Doppler
     ];
 
     /**
-     * @var array $config User-defined configuration options for PDF conversion.
+     * User-defined configuration options for PDF conversion.
+     *
+     * @var array $config
      */
     public $config = [];
 
     /**
-     * @var array $parameters Additional Ghostscript parameters set by the user.
+     * Additional Ghostscript parameters set by the user.
+     *
+     * @var array $parameters
      */
     public $parameters = [];
 
     /**
      * Run a Ghostscript process with the given command.
      *
-     * @param string $command The Ghostscript command to execute.
+     * @param string $command
      */
     private function run_process(string $command)
     {
@@ -89,9 +107,10 @@ class Doppler
     /**
      * Set the PDF file to be processed.
      *
-     * @param string $file_name The path to the PDF file.
+     * @param string $file_name
+     *
      * @return Doppler
-     * @throws Exception If the file is not found.
+     * @throws Exception
      */
     public function read(string $file_name): Doppler
     {
@@ -109,8 +128,9 @@ class Doppler
     /**
      * Get the total number of pages in the PDF file.
      *
-     * @param string $file_name The path to the PDF file.
-     * @return string|null The number of pages or null if unable to determine.
+     * @param string $file_name
+     *
+     * @return string|null
      */
     private function get_page_count(string $file_name): ?string
     {
@@ -120,7 +140,8 @@ class Doppler
     /**
      * Set user-defined configuration options for PDF conversion.
      *
-     * @param array $config User-defined configuration options.
+     * @param array $config
+     *
      * @return Doppler
      */
     public function configure(array $config): Doppler
@@ -134,6 +155,7 @@ class Doppler
      * Add parameters to the command.
      *
      * @param $params
+     *
      * @return void
      */
     private function add_params($params)
@@ -145,6 +167,7 @@ class Doppler
      * Get parameter.
      *
      * @param mixed $param
+     *
      * @return mixed|null
      */
     private function get_parameter($param)
@@ -158,6 +181,7 @@ class Doppler
      * Get configuration.
      *
      * @param $var
+     *
      * @return int|mixed|null
      */
     private function get_config_var($var)
@@ -178,20 +202,22 @@ class Doppler
     /**
      * Get the Ghostscript command for processing the PDF file.
      *
-     * @param array|null $params Additional parameters to include in the command.
-     * @return string The constructed Ghostscript command.
+     * @param array|null $params
+     *
+     * @return string
      */
     public function get_command(array $params = null): string
     {
-        return str_replace(["\n", "\r", '  '], ' ', 'gs ' . join(' ', $params ?? $this->get_parameters()));
+        return str_replace(["\n", "\r", '  '], ' ', $this->interpreter . ' ' . join(' ', $params ?? $this->get_parameters()));
     }
 
     /**
      * Process the PDF file and generate images in the specified directory.
      *
-     * @param string $path The directory to save the generated images.
-     * @param string $type The image type (e.g., 'jpg', 'png').
-     * @throws Exception If an error occurs during processing.
+     * @param string $path
+     * @param string $type
+     *
+     * @throws Exception
      */
     public function process(string $path, string $type = 'jpg')
     {
