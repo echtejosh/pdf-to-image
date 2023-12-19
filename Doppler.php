@@ -78,7 +78,7 @@ class Doppler
      *
      * @return Doppler
      */
-    public function set_interpreter($path): Doppler
+    public function set_interpreter(string $path): Doppler
     {
         $this->gs_path = $path;
 
@@ -195,11 +195,11 @@ class Doppler
     /**
      * Add parameters to the command.
      *
-     * @param $params
+     * @param array $params
      *
      * @return void
      */
-    private function add_params($params)
+    private function add_params(array $params)
     {
         $this->parameters = array_merge($this->parameters, $params);
     }
@@ -207,11 +207,11 @@ class Doppler
     /**
      * Get parameter.
      *
-     * @param mixed $param
+     * @param string $param
      *
      * @return mixed|null
      */
-    private function get_parameter($param)
+    private function get_parameter(string $param)
     {
         $_params = array_flip($this->parameters);
 
@@ -221,11 +221,11 @@ class Doppler
     /**
      * Get configuration.
      *
-     * @param $var
+     * @param string $var
      *
      * @return int|mixed|null
      */
-    private function get_config_var($var)
+    private function get_config_var(string $var)
     {
         return array_merge($this->default_config, $this->config)[$var] ?? null;
     }
