@@ -12,11 +12,11 @@
 class Doppler
 {
     /**
-     * The interpreter command for Ghostscript.
+     * The path to the Ghostscript executable.
      *
-     * @var string $interpreter
+     * @var string $gs_path
      */
-    public $interpreter = 'gs'; // gswin32, gswin64
+    public $gs_path;
 
     /**
      * The path to the PDF file to be processed.
@@ -70,6 +70,46 @@ class Doppler
      * @var array $parameters
      */
     public $parameters = [];
+
+    /**
+     * Set the path to the Ghostscript executable.
+     *
+     * @param string $path
+     *
+     * @return Doppler
+     */
+    public function set_interpreter($path): Doppler
+    {
+        $this->gs_path = $path;
+
+        return $this;
+    }
+
+    /**
+     * Get the Ghostscript interpreter.
+     *
+     * @return string
+     * @throws Exception
+     */
+    public function get_interpreter(): string
+    {
+        $interpreters = [
+            $this->gs_path,
+            'gswin64c',
+            'gswin32c',
+            'gs',
+        ];
+
+        foreach (array_filter($interpreters) as $interpreter) {
+            exec($interpreter . ' --version', $output, $return_code);
+
+            if ($return_code === 0) {
+                return $interpreter;
+            }
+        }
+
+        throw new Exception('ghostscript is not found, check if gs is installed or configured properly');
+    }
 
     /**
      * Run a Ghostscript process with the given command.
@@ -131,10 +171,11 @@ class Doppler
      * @param string $file_name
      *
      * @return string|null
+     * @throws Exception
      */
     private function get_page_count(string $file_name): ?string
     {
-        return shell_exec('qpdf --show-npages ' . $file_name);
+        return shell_exec($this->get_interpreter() . ' -q --permit-file-read=./ -dNODISPLAY -c "(' . $file_name . ') (r) file runpdfbegin pdfpagecount = quit"');
     }
 
     /**
@@ -205,10 +246,11 @@ class Doppler
      * @param array|null $params
      *
      * @return string
+     * @throws Exception
      */
     public function get_command(array $params = null): string
     {
-        return str_replace(["\n", "\r", '  '], ' ', $this->interpreter . ' ' . join(' ', $params ?? $this->get_parameters()));
+        return str_replace(["\n", "\r", '  '], ' ', $this->get_interpreter() . ' ' . join(' ', $params ?? $this->get_parameters()));
     }
 
     /**
