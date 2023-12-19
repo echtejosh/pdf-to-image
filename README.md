@@ -25,7 +25,7 @@ Options is an [associative array](https://www.php.net/manual/en/language.types.a
 
 
 ## Functions
-Functions ordered in use-case. From reading the file, to configurating the conversion, to processing the PDF to JPG or PNG.
+These functions are ordered in use-case. From reading the file, to configurating the conversion, to processing the PDF to JPG or PNG.
 
 ### read(path)
 Set a PDF to be read and converted. Referenced as `path`:
