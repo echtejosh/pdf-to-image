@@ -78,7 +78,7 @@ class Doppler
      *
      * @return Doppler
      */
-    public function set_interpreter(string $path): Doppler
+    public function set_executable(string $path): Doppler
     {
         $this->gs_path = $path;
 
@@ -91,7 +91,7 @@ class Doppler
      * @return string
      * @throws Exception
      */
-    public function get_interpreter(): string
+    public function get_executable(): string
     {
         $interpreters = [
             $this->gs_path,
@@ -175,7 +175,7 @@ class Doppler
      */
     private function get_page_count(string $file_name): ?string
     {
-        return shell_exec($this->get_interpreter() . ' -q --permit-file-read=./ -dNODISPLAY -c "(' . $file_name . ') (r) file runpdfbegin pdfpagecount = quit"');
+        return shell_exec($this->get_executable() . ' -q --permit-file-read=./ -dNODISPLAY -c "(' . $file_name . ') (r) file runpdfbegin pdfpagecount = quit"');
     }
 
     /**
@@ -250,7 +250,7 @@ class Doppler
      */
     public function get_command(array $params = null): string
     {
-        return str_replace(["\n", "\r", '  '], ' ', $this->get_interpreter() . ' ' . join(' ', $params ?? $this->get_parameters()));
+        return str_replace(["\n", "\r", '  '], ' ', $this->get_executable() . ' ' . join(' ', $params ?? $this->get_parameters()));
     }
 
     /**
