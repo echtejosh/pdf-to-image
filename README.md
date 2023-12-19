@@ -64,6 +64,13 @@ $doppler->get_command(options);
 ```
 - options: see [options](https://github.com/echtyushi/doppler/#options), `options` passed through `get_command` overwrites current and default configurations and parameters.
 
+### get_page_count(path)
+Additional function: retrieve the page count of a PDF:
+```php
+$doppler->get_page_count(file_name);
+```
+- path: relative or real path to the PDF file.
+
 ## Additional Notes
 
 - The example assumes that the Ghostscript and QPDF executables are in the system's PATH.
