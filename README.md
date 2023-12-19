@@ -35,6 +35,13 @@ $doppler->read(path);
 ```
 - path: relative or real path to the PDF file.
 
+### set_interpreter(path)
+Set the path to the Ghostscript executable:
+```php
+$doppler->set_interpreter(path);
+```
+- path: relative or real path to the Ghostscript executable.
+
 ### configure(options)
 Configure the conversion process for the PDF:
 ```php
