@@ -67,7 +67,7 @@ $doppler->get_command(options);
 ### get_page_count(path)
 Additional function: retrieve the page count of a PDF:
 ```php
-$doppler->get_page_count(file_name);
+$doppler->get_page_count(path);
 ```
 - path: relative or real path to the PDF file.
 
