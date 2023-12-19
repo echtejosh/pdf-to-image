@@ -168,14 +168,14 @@ class Doppler
     /**
      * Get the total number of pages in the PDF file.
      *
-     * @param string $file_name
+     * @param string $path
      *
      * @return string|null
      * @throws Exception
      */
-    private function get_page_count(string $file_name): ?string
+    public function get_page_count(string $path): ?string
     {
-        return shell_exec($this->get_executable() . ' -q --permit-file-read=./ -dNODISPLAY -c "(' . $file_name . ') (r) file runpdfbegin pdfpagecount = quit"');
+        return shell_exec($this->get_executable() . ' -q --permit-file-read=./ -dNODISPLAY -c "(' . $path . ') (r) file runpdfbegin pdfpagecount = quit"');
     }
 
     /**
