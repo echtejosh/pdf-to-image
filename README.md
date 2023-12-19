@@ -4,10 +4,9 @@ Doppler is a PHP class that provides a convenient interface for converting PDF f
 
 ## Installation
 
-Before using Doppler, ensure that you have Ghostscript and QPDF installed on your system:
+Before using Doppler, ensure that you have Ghostscript on your system:
 ```bash
 sudo apt-get install ghostscript
-sudo apt-get install qpdf
 ```
 
 ## Options
@@ -62,11 +61,18 @@ Additional function: get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
 ```
-- options: see [options](https://github.com/echtyushi/doppler/#options).
+- options: see [options](https://github.com/echtyushi/doppler/#options), `options` passed through `get_command` overwrites current and default configurations and parameters.
+
+### get_page_count(path)
+Additional function: retrieve the page count of a PDF:
+```php
+$doppler->get_page_count(path);
+```
+- path: relative or real path to the PDF file.
 
 ## Additional Notes
 
-- The example assumes that the Ghostscript and QPDF executables are in the system's PATH.
+- The example assumes that the Ghostscript executables are in the system's PATH variables.
 - Make sure the web server has the necessary permissions to read the input PDF file and write to the output directory.
 - Ensure that the `proc_open` function is not disabled in your PHP configuration. Check the `disable_functions` directive in your `php.ini` file and remove `proc_open` if present.
 - Ensure that the `-dNumRenderingThreads=` parameter within the `default_parameters` property of the Doppler class is set to the desired number of cores for allocation.
