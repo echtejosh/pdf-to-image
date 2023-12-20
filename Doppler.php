@@ -16,14 +16,14 @@ class Doppler
      *
      * @var string $gs_path
      */
-    public $gs_path;
+    public $gs_path = '';
 
     /**
      * The path to the PDF file to be processed.
      *
      * @var string $file_name
      */
-    public $file_name;
+    public $file_name = '';
 
     /**
      * Default Ghostscript parameters for PDF conversion.
