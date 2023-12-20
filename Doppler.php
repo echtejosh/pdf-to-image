@@ -33,7 +33,7 @@ class Doppler
     public $default_parameters = [
         '-dNOPAUSE',
         '-dBATCH',
-        '-dNumRenderingThreads=12', // Change to amount of CPU cores u want to use.
+        '-dNumRenderingThreads=12',
         '-dBufferSpace=1000000000',
         '-dBandBufferSpace=500000000',
         '-dNOTRANSPARENCY',
