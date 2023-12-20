@@ -116,7 +116,7 @@ class Doppler
      *
      * @param string $command
      */
-    private function run_process(string $command)
+    private function gs_proc(string $command)
     {
         $descriptors = [
             0 => ['pipe', 'r'], // stdin
@@ -195,27 +195,27 @@ class Doppler
     /**
      * Add parameters to the command.
      *
-     * @param array $params
+     * @param array $parameters
      *
      * @return void
      */
-    private function add_parameters(array $params)
+    private function add_parameters(array $parameters)
     {
-        $this->parameters = array_merge($this->parameters, $params);
+        $this->parameters = array_merge($this->parameters, $parameters);
     }
 
     /**
      * Get parameter.
      *
-     * @param string $param
+     * @param string $parameters
      *
      * @return mixed|null
      */
-    private function get_parameter(string $param)
+    private function get_parameter(string $parameters)
     {
-        $_params = array_flip($this->parameters);
+        $values = array_flip($this->parameters);
 
-        return isset($_params[$param]) ? $this->parameters[$_params[$param]] : null;
+        return isset($values[$parameters]) ? $this->parameters[$values[$parameters]] : null;
     }
 
     /**
@@ -225,7 +225,7 @@ class Doppler
      *
      * @return int|mixed|null
      */
-    private function get_config_var(string $var)
+    private function get_config_value(string $var)
     {
         return array_merge($this->default_config, $this->config)[$var] ?? null;
     }
@@ -282,7 +282,7 @@ class Doppler
             array_merge(
                 $this->default_parameters,
                 [
-                    '-r' . $this->get_config_var('resolution'),
+                    '-r' . $this->get_config_value('resolution'),
                     '-sDEVICE=' . $_types[$type]
                 ]
             )
@@ -292,7 +292,7 @@ class Doppler
         if ($this->get_parameter('-sDEVICE=jpeg')) {
             $this->add_parameters(
                 [
-                    '-dJPEGQ=' . $this->get_config_var('compression_quality'),
+                    '-dJPEGQ=' . $this->get_config_value('compression_quality'),
                     '-dCOLORSCREEN'
                 ]
             );
@@ -300,7 +300,7 @@ class Doppler
 
         // PNG
         if ($this->get_parameter('-sDEVICE=pngalpha')) {
-            $alpha_bits = $this->get_config_var('alpha_bits');
+            $alpha_bits = $this->get_config_value('alpha_bits');
 
             $this->add_parameters(
                 [
@@ -310,24 +310,24 @@ class Doppler
             );
         }
 
-        $batch_size = $this->get_config_var('batch_size');
-        $page_start_at = $this->get_config_var('page_start_at');
+        $batch_size = $this->get_config_value('batch_size');
+        $page_start_at = $this->get_config_value('page_start_at');
 
         $start = microtime(true);
 
-        if ($this->get_config_var('disable_color_management')) {
+        if ($this->get_config_value('disable_color_management')) {
             $this->add_parameters(
                 ['-dColorConversionStrategy=/LeaveColorUnchanged']
             );
         }
 
-        if ($this->get_config_var('disable_font')) {
+        if ($this->get_config_value('disable_font')) {
             $this->add_parameters(
                 ['-dNOFONT']
             );
         }
 
-        if ($this->get_config_var('disable_annotations')) {
+        if ($this->get_config_value('disable_annotations')) {
             $this->add_parameters(
                 ['-dPrinted']
             );
@@ -344,7 +344,7 @@ class Doppler
                 ]
             );
 
-            $this->run_process($this->get_command());
+            $this->gs_proc($this->get_command());
 
             $end = microtime(true);
             $total = $end - $start;
@@ -372,7 +372,7 @@ class Doppler
                 )
             );
 
-            $this->run_process($command);
+            $this->gs_proc($command);
 
             $inner_end = microtime(true);
             $inner_total = $inner_end - $inner_start;
