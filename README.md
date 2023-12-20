@@ -77,4 +77,4 @@ $doppler->get_page_count(path);
 - The example assumes that the Ghostscript executables are in the system's PATH variables.
 - Make sure the web server has the necessary permissions to read the input PDF file and write to the output directory.
 - Ensure that the `proc_open` function is not disabled in your PHP configuration. Check the `disable_functions` directive in your `php.ini` file and remove `proc_open` if present.
-- Ensure that the `-dNumRenderingThreads=` parameter within the `default_parameters` property of the Doppler class is set to the desired number of cores for allocation.
+- Ensure that the `-dNumRenderingThreads` parameter within the `default_parameters` property of the Doppler class is set to the desired number of CPU cores.
