@@ -63,7 +63,7 @@ Get the Ghostscript command for processing the PDF file:
 ```php
 $doppler->get_command(options);
 ```
-- options: see [options](https://github.com/echtyushi/doppler/#options), `options` passed through `get_command` overwrites current and default configurations and parameters.
+- options: `options` passed through `get_command` overwrites current and default configurations and parameters. See [options](https://github.com/echtyushi/doppler/#options).
 
 ### get_page_count(path)
 Retrieve the page count of a PDF:
