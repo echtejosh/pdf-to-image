@@ -18,7 +18,7 @@ Options is an [associative array](https://www.php.net/manual/en/language.types.a
 | `batch_size`              | `0`                         | Number of pages to process in each batch during batch processing. Set to `0` for single-page processing. |
 | `resolution`              | `300`                       | Resolution (dots per inch) of the generated images.                                                      |
 | `compression_quality`     | `100`                       | Compression quality for JPEG images (applies only to JPEG output).                                       |
-| `alpha_bits`              | `4`                         | Number of bits for alpha channel transparency in PNG images.                                             |
+| `alpha_bits`              | `4`                         | Number of bits (between `1` to `4`) for alpha channel transparency in PNG images.                                             |
 | `disable_color_management`| `true`                      | Disable color management during PDF conversion.                                                          |
 | `disable_font`            | `true`                      | Disable font inclusion in the generated images.                                                          |
 | `disable_annotations`     | `true`                      | Disable annotations in the PDF during conversion.                                                        |
