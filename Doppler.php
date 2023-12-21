@@ -147,14 +147,14 @@ class Doppler
     /**
      * Set the PDF file to be processed.
      *
-     * @param string $file_name
+     * @param string $path
      *
      * @return Doppler
      * @throws Exception
      */
-    public function read(string $file_name): Doppler
+    public function read(string $path): Doppler
     {
-        $file_path = realpath($file_name);
+        $file_path = realpath($path);
 
         if ($file_path === false || !file_exists($file_path)) {
             throw new Exception('file not found, is this path correct?');
