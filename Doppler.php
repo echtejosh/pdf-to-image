@@ -259,15 +259,15 @@ class Doppler
     /**
      * Process the PDF file and generate images in the specified directory.
      *
-     * @param string $path
+     * @param string $directory
      * @param string $type
      *
      * @throws Exception
      */
-    public function process(string $path, string $type = 'jpg')
+    public function process(string $directory, string $type = 'jpg')
     {
-        if (is_dir($path) === false) {
-            throw new Exception('invalid directory: ' . $path);
+        if (is_dir($directory) === false) {
+            throw new Exception('invalid directory: ' . $directory);
         }
 
         $page_count = $this->get_page_count($this->file_name);
@@ -343,7 +343,7 @@ class Doppler
                 [
                     '-dFirstPage=' . $page_start_at,
                     '-dLastPage=' . $page_count,
-                    '-sOutputFile=' . $path . 'page_%d.' . $type,
+                    '-sOutputFile=' . $directory . 'page_%d.' . $type,
                     $this->file_name
                 ]
             );
@@ -370,7 +370,7 @@ class Doppler
                     [
                         '-dFirstPage=' . $start_page,
                         '-dLastPage=' . $end_page,
-                        '-sOutputFile=' . $path . 'page_' . $batch . '_%d.' . $type,
+                        '-sOutputFile=' . $directory . 'page_' . $batch . '_%d.' . $type,
                         $this->file_name
                     ]
                 )
