@@ -221,13 +221,13 @@ class Doppler
     /**
      * Get configuration.
      *
-     * @param string $var
+     * @param string $id
      *
      * @return int|mixed|null
      */
-    private function get_config_value(string $var)
+    private function get_config_value(string $id)
     {
-        return array_merge($this->default_config, $this->config)[$var] ?? null;
+        return array_merge($this->default_config, $this->config)[$id] ?? null;
     }
 
     /**
@@ -243,14 +243,14 @@ class Doppler
     /**
      * Get the Ghostscript command for processing the PDF file.
      *
-     * @param array|null $params
+     * @param array|null $parameters
      *
      * @return string
      * @throws Exception
      */
-    public function get_command(array $params = null): string
+    public function get_command(array $parameters = null): string
     {
-        return str_replace(["\n", "\r", '  '], ' ', $this->get_executable() . ' ' . join(' ', $params ?? $this->get_parameters()));
+        return str_replace(["\n", "\r", '  '], ' ', $this->get_executable() . ' ' . join(' ', $parameters ?? $this->get_parameters()));
     }
 
     /**
