@@ -16,24 +16,24 @@ class Doppler
      *
      * @var string $gs_path
      */
-    public $gs_path = '';
+    public string $gs_path = '';
 
     /**
      * The path to the PDF file to be processed.
      *
      * @var string $file_name
      */
-    public $file_name = '';
+    public string $file_name = '';
 
     /**
      * Default Ghostscript parameters for PDF conversion.
      *
      * @var array $default_parameters
      */
-    public $default_parameters = [
+    public array $default_parameters = [
         '-dNOPAUSE',
         '-dBATCH',
-        '-dNumRenderingThreads=12',
+        '-dNumRenderingThreads=4',
         '-dBufferSpace=1000000000',
         '-dBandBufferSpace=500000000',
         '-dNOTRANSPARENCY',
@@ -46,7 +46,7 @@ class Doppler
      *
      * @var array $default_config
      */
-    public $default_config = [
+    public array $default_config = [
         'page_start_at' => 0,
         'batch_size' => 0,
         'resolution' => 300,
@@ -62,14 +62,14 @@ class Doppler
      *
      * @var array $config
      */
-    public $config = [];
+    public array $config = [];
 
     /**
      * Additional Ghostscript parameters set by the user.
      *
      * @var array $parameters
      */
-    public $parameters = [];
+    public array $parameters = [];
 
     /**
      * Set the path to the Ghostscript executable.
@@ -318,6 +318,7 @@ class Doppler
         if ($this->get_config_value('disable_color_management')) {
             $this->add_parameters(
                 ['-dColorConversionStrategy=/LeaveColorUnchanged']
+
             );
         }
 
@@ -386,14 +387,3 @@ class Doppler
         echo "total processing time: {$total} seconds\n";
     }
 }
-
-$doppler = new Doppler();
-
-// test example of usage
-$doppler
-    ->read('pdf_test.pdf')
-    ->configure([
-        'resolution' => 250,
-        'compression_quality' => 80,
-    ])
-    ->process('images/');
