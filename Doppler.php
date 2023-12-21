@@ -156,7 +156,10 @@ class Doppler
     {
         $file_path = realpath($path);
 
-        if ($file_path === false || !file_exists($file_path)) {
+        if (
+            $file_path === false ||
+            file_exists($file_path) === false
+        ) {
             throw new Exception('file not found, is this path correct?');
         }
 
