@@ -94,11 +94,12 @@ class Doppler
     public function get_executable(): string
     {
         $interpreters = [
-            $this->gs_path,
             'gswin64c',
             'gswin32c',
             'gs',
         ];
+
+        $interpreters[] = $this->gs_path;
 
         foreach (array_filter($interpreters) as $interpreter) {
             exec($interpreter . ' --version', $output, $return_code);
