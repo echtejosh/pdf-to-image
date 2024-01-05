@@ -136,7 +136,7 @@ class Doppler
      * @param string $path
      * @return string|null
      */
-    public function get_page_count(string $path): ?string
+    public function get_page_amount(string $path): ?string
     {
         if (isset($this->ghostscript_path) === false) {
             throw new Error("Path is not set");
@@ -300,7 +300,7 @@ class Doppler
         $this->add_parameters(
             [
                 "-dFirstPage=0",
-                "-dLastPage=" . $this->get_page_count($this->filename),
+                "-dLastPage=" . $this->get_page_amount($this->filename),
                 "-sOutputFile={$directory}page_%d.$type",
                 $this->filename
             ]
