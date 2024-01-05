@@ -1,393 +1,316 @@
 <?php
 
-/**
- * Doppler
- *
- * This class provides a convenient interface for converting PDF files to images using Ghostscript.
- * It supports both single-page and batch processing.
- *
- * @author echtyushi
- * @version 1.0
- */
 class Doppler
 {
     /**
-     * The path to the Ghostscript executable.
+     * Set path
      *
-     * @var string $gs_path
+     * @var string
      */
-    public string $gs_path = '';
+    private string $ghostscript_path;
 
     /**
-     * The path to the PDF file to be processed.
+     * Set path of PDF
      *
-     * @var string $file_name
+     * @var string
      */
-    public string $file_name = '';
+    public string $filename;
 
     /**
-     * Default Ghostscript parameters for PDF conversion.
+     * Standard command parameters
      *
-     * @var array $default_parameters
+     * @var array|string[]
      */
-    public array $default_parameters = [
-        '-dNOPAUSE',
-        '-dBATCH',
-        '-dNumRenderingThreads=4',
-        '-dBufferSpace=1000000000',
-        '-dBandBufferSpace=500000000',
-        '-dNOTRANSPARENCY',
-        '-dMaxBitmap=10000000',
-        '-dNOGC'
+    public array $standard_command_parameters = [
+        "-dNOPAUSE",
+        "-dBATCH",
+        "-dNumRenderingThreads=4",
+        "-dBufferSpace=1000000000",
+        "-dBandBufferSpace=500000000",
+        "-dMaxBitmap=10000000",
+        "-dNOGC"
     ];
 
     /**
-     * Default configuration options for PDF conversion.
+     * Standard configuration
      *
-     * @var array $default_config
+     * @var array|int[]
      */
-    public array $default_config = [
-        'page_start_at' => 0,
-        'batch_size' => 0,
-        'resolution' => 300,
-        'compression_quality' => 100,
-        'alpha_bits' => 4,
-        'disable_color_management' => true,
-        'disable_font' => true,
-        'disable_annotations' => true,
+    public array $standard_configuration = [
+        "resolution" => 300,
+        "compression_quality" => 100,
+        "alpha_bits" => 4,
+        "disable_color_management" => true,
+        "disable_font" => true,
+        "disable_annotations" => true,
     ];
 
     /**
-     * User-defined configuration options for PDF conversion.
+     * Configuration set by the user
      *
-     * @var array $config
+     * @var array
      */
-    public array $config = [];
+    public array $user_configuration = [];
 
     /**
-     * Additional Ghostscript parameters set by the user.
+     * Current command parameters set by the user
      *
-     * @var array $parameters
+     * @var array
      */
-    public array $parameters = [];
+    public array $user_command_parameters = [];
 
     /**
-     * Set the path to the Ghostscript executable.
+     * Set the path of path
      *
      * @param string $path
-     *
-     * @return Doppler
+     * @return $this
      */
-    public function set_executable(string $path): Doppler
+    public function set_ghostscript_path(string $path): Doppler
     {
-        $this->gs_path = $path;
+        $this->ghostscript_path = $path;
 
         return $this;
     }
 
     /**
-     * Get the Ghostscript interpreter.
-     *
-     * @return string
-     * @throws Exception
-     */
-    public function get_executable(): string
-    {
-        $interpreters = [
-            'gswin64c',
-            'gswin32c',
-            'gs',
-        ];
-
-        $interpreters[] = $this->gs_path;
-
-        foreach (array_filter($interpreters) as $interpreter) {
-            exec($interpreter . ' --version', $output, $return_code);
-
-            if ($return_code === 0) {
-                return $interpreter;
-            }
-        }
-
-        throw new Exception('ghostscript is not found, check if gs is installed or configured properly');
-    }
-
-    /**
-     * Run a Ghostscript process with the given command.
+     * Process command in terminal
      *
      * @param string $command
+     * @return void
      */
-    private function gs_proc(string $command)
+    private function process_command(string $command)
     {
-        $descriptors = [
-            0 => ['pipe', 'r'], // stdin
-            1 => ['pipe', 'w'], // stdout
-            2 => ['pipe', 'w'], // stderr
-        ];
+        $process = proc_open(
+            $command,
+            [
+                0 => ['pipe', 'r'],
+                1 => ['pipe', 'w'],
+                2 => ['pipe', 'w'],
+            ],
+            $pipes
+        );
 
-        $process = proc_open($command, $descriptors, $pipes);
+        if (is_resource($process) === false) {
+            echo "Error opening process for single-page processing";
 
-        if (is_resource($process)) {
-            fclose($pipes[0]);
+            return;
+        }
 
-            $stderr = stream_get_contents($pipes[2]);
+        $stderr = stream_get_contents($pipes[2]);
 
-            fclose($pipes[1]);
-            fclose($pipes[2]);
+        fclose($pipes[0]);
+        fclose($pipes[1]);
+        fclose($pipes[2]);
 
-            $exit_code = proc_close($process);
-
-            if ($exit_code !== 0) {
-                echo "error during processing:\nexit code: {$exit_code}\nstandard error: {$stderr}\n";
-            }
-        } else {
-            echo "error opening process for single-page processing\n";
+        if ($process && proc_close($process)) {
+            echo "Error during process: $stderr";
         }
     }
 
     /**
-     * Set the PDF file to be processed.
+     * Read PDF
      *
      * @param string $path
-     *
-     * @return Doppler
+     * @return $this
      * @throws Exception
      */
     public function read(string $path): Doppler
     {
-        $file_path = realpath($path);
+        $filepath = realpath($path);
 
         if (
-            $file_path === false ||
-            file_exists($file_path) === false
+            $filepath === false ||
+            file_exists($filepath) === false
         ) {
-            throw new Exception('file not found, is this path correct?');
+            throw new Exception("File not found");
         }
 
-        $this->file_name = $file_path;
+        $this->filename = $filepath;
 
         return $this;
     }
 
     /**
-     * Get the total number of pages in the PDF file.
+     * Get PDF size in pages
      *
      * @param string $path
-     *
      * @return string|null
-     * @throws Exception
      */
     public function get_page_count(string $path): ?string
     {
-        return shell_exec($this->get_executable() . ' -q --permit-file-read=' . $path . ' -dNODISPLAY -c "(' . $path . ') (r) file runpdfbegin pdfpagecount = quit"');
+        if (isset($this->ghostscript_path) === false) {
+            throw new Error("Path is not set");
+        }
+
+        return shell_exec("$this->ghostscript_path -q --permit-file-read=$path -dNODISPLAY -c " . '"(' . $path . ') (r) file runpdfbegin pdfpagecount = quit"');
     }
 
     /**
-     * Set user-defined configuration options for PDF conversion.
+     * Set user configuration
      *
-     * @param array $config
-     *
-     * @return Doppler
+     * @param array $configuration
+     * @return $this
      */
-    public function configure(array $config): Doppler
+    public function configure(array $configuration): Doppler
     {
-        $this->config = $config;
+        $this->user_configuration = $configuration;
 
         return $this;
     }
 
     /**
-     * Add parameters to the command.
+     * Add parameters
      *
      * @param array $parameters
-     *
      * @return void
      */
     private function add_parameters(array $parameters)
     {
-        $this->parameters = array_merge($this->parameters, $parameters);
+        $this->user_command_parameters = array_merge($this->user_command_parameters, $parameters);
     }
 
     /**
-     * Get parameter.
+     * Get parameter
      *
      * @param string $parameters
-     *
      * @return mixed|null
      */
     private function get_parameter(string $parameters)
     {
-        $values = array_flip($this->parameters);
+        $values = array_flip($this->user_command_parameters);
 
-        return isset($values[$parameters]) ? $this->parameters[$values[$parameters]] : null;
+        return isset($values[$parameters]) ? $this->user_command_parameters[$values[$parameters]] : null;
     }
 
     /**
-     * Get configuration.
+     * Get value of a specific configuration
      *
      * @param string $id
-     *
-     * @return int|mixed|null
+     * @return int|mixed|string|null
      */
     private function get_config_value(string $id)
     {
-        return array_merge($this->default_config, $this->config)[$id] ?? null;
+        return array_merge($this->standard_configuration, $this->user_configuration)[$id] ?? null;
     }
 
     /**
-     * Get parameters.
+     * Get parameters of user and standard
      *
      * @return array
      */
     private function get_parameters(): array
     {
-        return array_merge($this->default_parameters, $this->parameters);
+        return array_merge($this->standard_command_parameters, $this->user_command_parameters);
     }
 
     /**
-     * Get the Ghostscript command for processing the PDF file.
+     * Get the command as string
      *
      * @param array|null $parameters
-     *
      * @return string
-     * @throws Exception
      */
     public function get_command(array $parameters = null): string
     {
-        return str_replace(["\n", "\r", '  '], ' ', $this->get_executable() . ' ' . join(' ', $parameters ?? $this->get_parameters()));
+        $command_parameters = join(" ", $parameters ?? $this->get_parameters());
+
+        if (isset($this->ghostscript_path) === false) {
+            throw new Error("Path is not set");
+        }
+
+        return str_replace(PHP_EOL, " ", "$this->ghostscript_path $command_parameters");
     }
 
     /**
-     * Process the PDF file and generate images in the specified directory.
+     * Process the conversion
      *
      * @param string $directory
      * @param string $type
-     *
+     * @return void
      * @throws Exception
      */
-    public function process(string $directory, string $type = 'jpg')
+    public function process(string $directory, string $type = "jpg")
     {
         if (is_dir($directory) === false) {
-            throw new Exception('invalid directory: ' . $directory);
+            throw new Exception("Invalid directory:  $directory");
         }
 
-        $page_count = $this->get_page_count($this->file_name);
-
-        $_types = [
-            'png' => 'pngalpha',
-            'jpg' => 'jpeg'
+        $types = [
+            "png" => "pngalpha",
+            "jpg" => "jpeg"
         ];
 
-        if (isset($_types[$type]) === false) {
-            throw new Exception('this type is not supported');
+        if (isset($types[$type]) === false) {
+            throw new Exception("This type is not supported");
         }
 
         $this->add_parameters(
             array_merge(
-                $this->default_parameters,
+                $this->standard_command_parameters,
                 [
-                    '-r' . $this->get_config_value('resolution'),
-                    '-sDEVICE=' . $_types[$type]
+                    "-r" . $this->get_config_value("resolution"),
+                    "-sDEVICE=$types[$type]"
                 ]
             )
         );
 
-        // JPG
-        if ($this->get_parameter('-sDEVICE=jpeg')) {
+        if ($this->get_parameter("-sDEVICE=jpeg")) {
             $this->add_parameters(
                 [
-                    '-dJPEGQ=' . $this->get_config_value('compression_quality'),
-                    '-dCOLORSCREEN'
+                    "-dJPEGQ=" . $this->get_config_value("compression_quality"),
+                    "-dCOLORSCREEN"
                 ]
             );
         }
 
-        // PNG
-        if ($this->get_parameter('-sDEVICE=pngalpha')) {
-            $alpha_bits = $this->get_config_value('alpha_bits');
+        if ($this->get_parameter("-sDEVICE=pngalpha")) {
+            $alpha_bits = $this->get_config_value("alpha_bits");
 
             $this->add_parameters(
                 [
-                    '-dGraphicsAlphaBits=' . $alpha_bits,
-                    '-dTextAlphaBits=' . $alpha_bits
+                    "-dGraphicsAlphaBits=$alpha_bits",
+                    "-dTextAlphaBits=$alpha_bits"
                 ]
             );
         }
-
-        $batch_size = $this->get_config_value('batch_size');
-        $page_start_at = $this->get_config_value('page_start_at');
 
         $start = microtime(true);
 
-        if ($this->get_config_value('disable_color_management')) {
+        if ($this->get_config_value("disable_color_management")) {
             $this->add_parameters(
-                ['-dColorConversionStrategy=/LeaveColorUnchanged']
-
+                ["-dColorConversionStrategy=/LeaveColorUnchanged"]
             );
         }
 
-        if ($this->get_config_value('disable_font')) {
+        if ($this->get_config_value("disable_font")) {
             $this->add_parameters(
-                ['-dNOFONT']
+                ["-dNOFONT"]
             );
         }
 
-        if ($this->get_config_value('disable_annotations')) {
+        if ($this->get_config_value("disable_annotations")) {
             $this->add_parameters(
-                ['-dPrinted']
+                ["-dPrinted"]
             );
         }
 
-        // Ignore batch processing
-        if ($batch_size === 0) {
-            $this->add_parameters(
-                [
-                    '-dFirstPage=' . $page_start_at,
-                    '-dLastPage=' . $page_count,
-                    '-sOutputFile=' . $directory . 'page_%d.' . $type,
-                    $this->file_name
-                ]
-            );
-
-            $this->gs_proc($this->get_command());
-
-            $end = microtime(true);
-            $total = $end - $start;
-
-            echo "total processing time: {$total} seconds\n";
-
-            return;
+        if (isset($this->filename) === false) {
+            throw new Error("There is no file being read");
         }
 
-        // Batch processing
-        for ($start_page = $page_start_at + 1, $batch = 1; $start_page <= $page_count; $start_page += $batch_size, $batch++) {
-            $end_page = min($start_page + $batch_size - 1, $page_count);
+        $this->add_parameters(
+            [
+                "-dFirstPage=0",
+                "-dLastPage=" . $this->get_page_count($this->filename),
+                "-sOutputFile={$directory}page_%d.$type",
+                $this->filename
+            ]
+        );
 
-            $inner_start = microtime(true);
-
-            $command = $this->get_command(
-                array_merge(
-                    $this->get_parameters(),
-                    [
-                        '-dFirstPage=' . $start_page,
-                        '-dLastPage=' . $end_page,
-                        '-sOutputFile=' . $directory . 'page_' . $batch . '_%d.' . $type,
-                        $this->file_name
-                    ]
-                )
-            );
-
-            $this->gs_proc($command);
-
-            $inner_end = microtime(true);
-            $inner_total = $inner_end - $inner_start;
-
-            echo "batch {$batch} processing time: {$inner_total} seconds\n";
-        }
+        $this->process_command($this->get_command());
 
         $end = microtime(true);
         $total = $end - $start;
 
-        echo "total processing time: {$total} seconds\n";
+        echo "Total processing time: $total seconds";
     }
 }
