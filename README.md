@@ -39,10 +39,10 @@ $doppler->read(path);
 ```
 - path: relative or real path to the PDF file.
 
-### configure(options)
+### set_configuration(options)
 Configure the conversion process for the PDF:
 ```php
-$doppler->configure(options);
+$doppler->set_configuration(options);
 ```
 - options: see [options](https://github.com/echtyushi/doppler/#options).
 
