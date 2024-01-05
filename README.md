@@ -1,6 +1,6 @@
 # Doppler 
 
-Doppler provides a convenient interface for converting PDF files to JPG and PNG using Ghostscript. It supports both single-page and batch processing.
+Doppler provides a convenient interface for converting PDF files to JPG and PNG using Ghostscript.
 
 ## Installation
 
