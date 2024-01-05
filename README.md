@@ -25,19 +25,19 @@ Options is an [associative array](https://www.php.net/manual/en/language.types.a
 ## Functions
 These functions are ordered in use-case. From reading the file, to configurating the conversion, to processing the PDF to JPG or PNG.
 
-### read(path)
-Set a PDF to be read and converted. Referenced as `path`:
-```php
-$doppler->read(path);
-```
-- path: relative or real path to the PDF file.
-
 ### set_ghostscript_path(path)
 Set the path to the Ghostscript executable:
 ```php
 $doppler->set_ghostscript_path(path);
 ```
 - path: relative or real path to the Ghostscript executable.
+
+### read(path)
+Set a PDF to be read and converted. Referenced as `path`:
+```php
+$doppler->read(path);
+```
+- path: relative or real path to the PDF file.
 
 ### configure(options)
 Configure the conversion process for the PDF:
