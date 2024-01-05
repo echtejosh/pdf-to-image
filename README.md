@@ -64,7 +64,7 @@ $doppler->get_command(options);
 - options: `options` passed through `get_command` overwrites current and default configurations and parameters. See [options](https://github.com/echtyushi/doppler/#options).
 
 ### get_page_amount(path)
-Retrieve the page count of a PDF:
+Retrieve the amount of pages in a PDF:
 ```php
 $doppler->get_page_amount(path);
 ```
