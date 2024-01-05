@@ -151,7 +151,7 @@ class Doppler
      * @param array $configuration
      * @return $this
      */
-    public function configure(array $configuration): Doppler
+    public function set_configuration(array $configuration): Doppler
     {
         $this->user_configuration = $configuration;
 
@@ -188,7 +188,7 @@ class Doppler
      * @param string $id
      * @return int|mixed|string|null
      */
-    private function get_config_value(string $id)
+    private function get_configuration_value(string $id)
     {
         return array_merge($this->standard_configuration, $this->user_configuration)[$id] ?? null;
     }
@@ -247,7 +247,7 @@ class Doppler
             array_merge(
                 $this->standard_command_parameters,
                 [
-                    "-r" . $this->get_config_value("resolution"),
+                    "-r" . $this->get_configuration_value("resolution"),
                     "-sDEVICE=$types[$type]"
                 ]
             )
@@ -256,14 +256,14 @@ class Doppler
         if ($this->get_parameter("-sDEVICE=jpeg")) {
             $this->add_parameters(
                 [
-                    "-dJPEGQ=" . $this->get_config_value("compression_quality"),
+                    "-dJPEGQ=" . $this->get_configuration_value("compression_quality"),
                     "-dCOLORSCREEN"
                 ]
             );
         }
 
         if ($this->get_parameter("-sDEVICE=pngalpha")) {
-            $alpha_bits = $this->get_config_value("alpha_bits");
+            $alpha_bits = $this->get_configuration_value("alpha_bits");
 
             $this->add_parameters(
                 [
@@ -275,19 +275,19 @@ class Doppler
 
         $start = microtime(true);
 
-        if ($this->get_config_value("disable_color_management")) {
+        if ($this->get_configuration_value("disable_color_management")) {
             $this->add_parameters(
                 ["-dColorConversionStrategy=/LeaveColorUnchanged"]
             );
         }
 
-        if ($this->get_config_value("disable_font")) {
+        if ($this->get_configuration_value("disable_font")) {
             $this->add_parameters(
                 ["-dNOFONT"]
             );
         }
 
-        if ($this->get_config_value("disable_annotations")) {
+        if ($this->get_configuration_value("disable_annotations")) {
             $this->add_parameters(
                 ["-dPrinted"]
             );
