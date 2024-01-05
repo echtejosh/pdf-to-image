@@ -14,8 +14,6 @@ Options is an [associative array](https://www.php.net/manual/en/language.types.a
 
 | Option                    | Default                     | Description                                                                                              |
 |---------------------------|-----------------------------|----------------------------------------------------------------------------------------------------------|
-| `page_start_at`           | `0`                         | Starting page number for PDF conversion.                                                                 |
-| `batch_size`              | `0`                         | Number of pages to process in each batch during batch processing. Set to `0` for single-page processing. |
 | `resolution`              | `300`                       | Resolution (dots per inch) of the generated images.                                                      |
 | `compression_quality`     | `100`                       | Compression quality for JPEG images (applies only to JPEG output).                                       |
 | `alpha_bits`              | `4`                         | Number of bits (between `1` to `4`) for alpha channel transparency in PNG images.                                             |
@@ -34,10 +32,10 @@ $doppler->read(path);
 ```
 - path: relative or real path to the PDF file.
 
-### set_executable(path)
+### set_ghostscript_path(path)
 Set the path to the Ghostscript executable:
 ```php
-$doppler->set_executable(path);
+$doppler->set_ghostscript_path(path);
 ```
 - path: relative or real path to the Ghostscript executable.
 
@@ -65,10 +63,10 @@ $doppler->get_command(options);
 ```
 - options: `options` passed through `get_command` overwrites current and default configurations and parameters. See [options](https://github.com/echtyushi/doppler/#options).
 
-### get_page_count(path)
+### get_page_amount(path)
 Retrieve the page count of a PDF:
 ```php
-$doppler->get_page_count(path);
+$doppler->get_page_amount(path);
 ```
 - path: relative or real path to the PDF file.
 
@@ -77,4 +75,4 @@ $doppler->get_page_count(path);
 - The example assumes that the Ghostscript executables are in the system's PATH variables.
 - Make sure the web server has the necessary permissions to read the input PDF file and write to the output directory.
 - Ensure that the `proc_open` function is not disabled in your PHP configuration. Check the `disable_functions` directive in your `php.ini` file and remove `proc_open` if present.
-- Ensure that the `-dNumRenderingThreads` parameter within the `default_parameters` property of the Doppler class is set to the desired number of CPU cores.
+- Ensure that the `-dNumRenderingThreads` parameter within the `standard_command_parameters` property of the Doppler class is set to the desired number of CPU cores.
