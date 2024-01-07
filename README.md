@@ -25,7 +25,7 @@ Options is an [associative array](https://www.php.net/manual/en/language.types.a
 ## Functions
 These functions are ordered in use-case. From reading the file, to configurating the conversion, to processing the PDF to JPG or PNG.
 
-### set_ghostscript_path(path)
+### set_path(path)
 Set the path to the Ghostscript executable:
 ```php
 $doppler->set_path(path);
