@@ -28,7 +28,7 @@ These functions are ordered in use-case. From reading the file, to configurating
 ### set_ghostscript_path(path)
 Set the path to the Ghostscript executable:
 ```php
-$doppler->set_ghostscript_path(path);
+$doppler->set_path(path);
 ```
 - path: relative or real path to the Ghostscript executable.
 
