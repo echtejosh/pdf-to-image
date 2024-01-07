@@ -7,7 +7,7 @@ class Doppler
      *
      * @var string
      */
-    private string $ghostscript_path;
+    private string $path;
 
     /**
      * Set path of PDF
@@ -60,14 +60,14 @@ class Doppler
     public array $user_command_parameters = [];
 
     /**
-     * Set the path of path
+     * Set the path of ghostscript executable
      *
      * @param string $path
      * @return $this
      */
-    public function set_ghostscript_path(string $path): Doppler
+    public function set_path(string $path): Doppler
     {
-        $this->ghostscript_path = $path;
+        $this->path = $path;
 
         return $this;
     }
@@ -138,11 +138,11 @@ class Doppler
      */
     public function get_page_amount(string $path): ?string
     {
-        if (isset($this->ghostscript_path) === false) {
+        if (isset($this->path) === false) {
             throw new Error("Path is not set");
         }
 
-        return shell_exec("$this->ghostscript_path -q --permit-file-read=$path -dNODISPLAY -c " . '"(' . $path . ') (r) file runpdfbegin pdfpagecount = quit"');
+        return shell_exec("$this->path -q --permit-file-read=$path -dNODISPLAY -c " . '"(' . $path . ') (r) file runpdfbegin pdfpagecount = quit"');
     }
 
     /**
@@ -213,11 +213,11 @@ class Doppler
     {
         $command_parameters = join(" ", $parameters ?? $this->get_parameters());
 
-        if (isset($this->ghostscript_path) === false) {
+        if (isset($this->path) === false) {
             throw new Error("Path is not set");
         }
 
-        return str_replace(PHP_EOL, " ", "$this->ghostscript_path $command_parameters");
+        return str_replace(PHP_EOL, " ", "$this->path $command_parameters");
     }
 
     /**
