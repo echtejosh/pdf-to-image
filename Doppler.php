@@ -299,7 +299,7 @@ class Doppler
 
         $this->add_parameters(
             [
-                "-dFirstPage=0",
+                "-dFirstPage=1",
                 "-dLastPage=" . $this->get_page_amount($this->filename),
                 "-sOutputFile={$directory}page_%d.$type",
                 $this->filename
