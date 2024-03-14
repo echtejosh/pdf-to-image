@@ -1,4 +1,4 @@
-# Doppler 
+# @doppler 
 
 Doppler provides a convenient interface for converting PDF files to JPG and PNG using Ghostscript.
 
