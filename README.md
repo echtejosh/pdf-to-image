@@ -2,6 +2,10 @@
 
 Doppler provides a convenient interface for converting PDF files to JPG and PNG using Ghostscript.
 
+## Requirements
+
+- PHP version 7.4
+
 ## Installation
 
 Before using Doppler, ensure that you have Ghostscript on your system:
