@@ -1,6 +1,6 @@
-# @doppler 
+# @pdf-to-image 
 
-Doppler provides a convenient interface for converting PDF to JPG and PNG using Ghostscript.
+pdf-to-image provides a convenient interface for converting PDF to JPG and PNG using Ghostscript.
 
 ## Requirements
 
@@ -8,7 +8,7 @@ Doppler provides a convenient interface for converting PDF to JPG and PNG using 
 
 ## Installation
 
-Before using Doppler, ensure that you have Ghostscript on your system:
+Before using pdf-to-image, ensure that you have Ghostscript on your system:
 ```bash
 sudo apt-get install ghostscript
 ```
@@ -32,28 +32,28 @@ These functions are ordered in use-case. From reading the file, to configurating
 ### set_path(path)
 Set the path to the Ghostscript executable:
 ```php
-$doppler->set_path(path);
+$pti->set_path(path);
 ```
 - path: relative or real path to the Ghostscript executable.
 
 ### read(path)
 Set a PDF to be read and converted. Referenced as `path`:
 ```php
-$doppler->read(path);
+$pti->read(path);
 ```
 - path: relative or real path to the PDF file.
 
 ### set_configuration(options)
 Configure the conversion process for the PDF:
 ```php
-$doppler->set_configuration(options);
+$pti->set_configuration(options);
 ```
-- options: see [options](https://github.com/echtyushi/doppler/#options).
+- options: see [options](https://github.com/echtyushi/pdf-to-image/#options).
 
 ### process(directory, type)
 Convert to `type` which can either be JPG or PNG the given directory:
 ```php
-$doppler->process(directory, type);
+$pti->process(directory, type);
 ```
 - directory: the directory in which the resulting conversions should be outputted.
 - type: specifies the file format for the conversion, either JPG or PNG.
@@ -63,14 +63,14 @@ $doppler->process(directory, type);
 ### get_command(options)
 Get the Ghostscript command for processing the PDF file:
 ```php
-$doppler->get_command(options);
+$pti->get_command(options);
 ```
-- options: `options` passed through `get_command` overwrites current and default configurations and parameters. See [options](https://github.com/echtyushi/doppler/#options).
+- options: `options` passed through `get_command` overwrites current and default configurations and parameters. See [options](https://github.com/echtyushi/pdf-to-image/#options).
 
 ### get_page_amount(path)
 Retrieve the amount of pages in a PDF:
 ```php
-$doppler->get_page_amount(path);
+$pti->get_page_amount(path);
 ```
 - path: relative or real path to the PDF file.
 
@@ -79,4 +79,4 @@ $doppler->get_page_amount(path);
 - The example assumes that the Ghostscript executables are in the system's PATH variables.
 - Make sure the web server has the necessary permissions to read the input PDF file and write to the output directory.
 - Ensure that the `proc_open` function is not disabled in your PHP configuration. Check the `disable_functions` directive in your `php.ini` file and remove `proc_open` if present.
-- Ensure that the `-dNumRenderingThreads` parameter within the `standard_command_parameters` property of the Doppler class is set to the desired number of CPU cores.
+- Ensure that the `-dNumRenderingThreads` parameter within the `standard_command_parameters` property of the PTI class is set to the desired number of CPU cores.
